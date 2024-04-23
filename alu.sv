@@ -11,7 +11,7 @@ module alu (
     input logic signed [31:0] a, b, // inputs
 
     output logic signed [31:0] out, // output
-    output logic zero,              // carry out
+    output logic zero,              // zero
     output logic of                 // overflow
         );
 
