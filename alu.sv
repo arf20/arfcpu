@@ -1,5 +1,13 @@
+typedef enum logic [2:0] { 
+    OP_AND =    3'b000,
+    OP_OR =     3'b001,
+    OP_ADD =    3'b010,
+    OP_SUB =    3'b110,
+    OP_SLT =    3'b111
+ } op_t;
+
 module alu (
-    input logic [2:0] op,           // operation
+    input op_t op,                  // operation
     input logic signed [31:0] a, b, // inputs
 
     output logic signed [31:0] out, // output
@@ -8,30 +16,19 @@ module alu (
         );
 
     always_comb begin
-        if (op == 0) begin
-            out = a & b;
-            of = 0;
-        end
-        else if (op == 1) begin
-            out = a | b;
-            of = 0;
-        end
-        else if (op == 2) begin
-            out = a + b;
-            of = (a >= 0) && (b >= 0) && (out < 0) || (a < 0) && (b < 0) && (out >= 0);
-        end
-        else if (op == 6) begin
-            out = a - b;
-            of = (a >= 0) && (b < 0) && (out < 0) || (a < 0) && (b >= 0) && (out >= 0);
-        end
-        else if (op == 7) begin
-            out = { 31'b0, a < b };
-            of = 0;
-        end
-        else begin
-            out = 0;
-            of = 0;
-        end
+        case (op)
+            OP_AND: out = a & b;
+            OP_OR:  out = a | b;
+            OP_ADD: out = a + b;
+            OP_SUB: out = a - b;
+            OP_SLT: out = { 31'b0, a < b };
+            default out = 0;
+        endcase
+
+        of =  ~op[2] & ~a[31] & ~b[31] &  out[31] 
+            | ~op[2] &  a[31] &  b[31] & ~out[31]
+            |  op[2] & ~a[31] &  b[31] &  out[31] 
+            |  op[2] &  a[31] & ~b[31] & ~out[31];
 
         zero = out == 0;
     end
