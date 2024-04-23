@@ -13,16 +13,22 @@ module alu (
     output logic signed [31:0] out, // output
     output logic zero,              // zero
     output logic of                 // overflow
-        );
+);
+
+    logic signed [31:0] addout;
+
+    faddsub faddsub0(.a(a), .b(b), .sub(op[2]), .out(addout));
 
     always_comb begin
         case (op)
             OP_AND: out = a & b;
             OP_OR:  out = a | b;
-            OP_ADD: out = a + b;
-            OP_SUB: out = a - b;
+            OP_ADD: out = addout;
+            OP_SUB: out = addout;
             OP_SLT: out = { 31'b0, a < b };
-            default out = 0;
+            default begin
+                out = 0;
+            end
         endcase
 
         of =  ~op[2] & ~a[31] & ~b[31] &  out[31] 
@@ -32,5 +38,4 @@ module alu (
 
         zero = out == 0;
     end
-
 endmodule
