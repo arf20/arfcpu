@@ -15,20 +15,30 @@ module alu (
     output logic of                 // overflow
 );
 
-    logic signed [31:0] addout;
+    logic [31:0] badd, addout;
+    logic cin;
 
-    faddsub faddsub0(.a(a), .b(b), .sub(op[2]), .out(addout));
+    fadd fadd0(.a(a), .b(badd), .cin(cin), .out(addout));
 
     always_comb begin
+        // sub mux
+        if (op[2]) begin
+            badd = ~b;
+            cin = 1;
+        end
+        else begin
+            badd = b;
+            cin = 0;
+        end
+
+        // out mux
         case (op)
             OP_AND: out = a & b;
             OP_OR:  out = a | b;
             OP_ADD: out = addout;
             OP_SUB: out = addout;
-            OP_SLT: out = { 31'b0, a < b };
-            default begin
-                out = 0;
-            end
+            OP_SLT: out = { 31'b0, addout[31] };
+            default out = 0;
         endcase
 
         of =  ~op[2] & ~a[31] & ~b[31] &  out[31] 
