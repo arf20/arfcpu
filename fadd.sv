@@ -5,6 +5,6 @@ module fadd (
 );
 
     always_comb begin
-        out = cin + a + b;
+        out = a + b + { 31'b0, cin };
     end
 endmodule
