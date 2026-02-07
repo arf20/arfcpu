@@ -1,8 +1,24 @@
-all: obj/Valu obj/Vregister_bank
+VERILATOR := verilator
 
-obj/Valu: alu.sv tb_alu.sv
-	verilator --timing --timescale-override 1ps/1ps --trace --assert --binary alu.sv tb_alu.sv
+OBJ_DIR := obj_dir
 
-obj/Vregister_bank: register_bank.sv tb_register_bank.sv
-	verilator --timing --timescale-override 1ps/1ps --trace --assert --binary register_bank.sv tb_register_bank.sv
+all: $(OBJ_DIR)/Valu $(OBJ_DIR)/Vregister_bank $(OBJ_DIR)/Vinstruction_register
+
+$(OBJ_DIR):
+	mkdir -p $(OBJ_DIR)
+
+$(OBJ_DIR)/Valu: alu.sv tb_alu.sv | $(OBJ_DIR)
+	$(VERILATOR) --timing --timescale-override 1ps/1ps --trace --assert --binary alu.sv tb_alu.sv
+
+$(OBJ_DIR)/Vregister_bank: register_bank.sv tb_register_bank.sv | $(OBJ_DIR)
+	$(VERILATOR) --timing --timescale-override 1ps/1ps --trace --assert --binary register_bank.sv tb_register_bank.sv
+
+$(OBJ_DIR)/Vinstruction_register: instruction_register.sv tb_ir.sv | $(OBJ_DIR)
+	$(VERILATOR) --timing --timescale-override 1ps/1ps --trace --assert --binary instruction_register.sv tb_ir.sv
+
+
+clean:
+	rm -rf $(OBJ_DIR)
+
+.PHONY: all clean
 

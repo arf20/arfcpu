@@ -15,13 +15,14 @@ module alu (
     output logic of                 // overflow
 );
 
-    logic [31:0] badd, addout;
-    logic cin;
+    logic [31:0] badd, addout;  // internal
+    logic cin;  // carry in
 
-    fadd fadd0(.a(a), .b(badd), .cin(cin), .out(addout));
+    // adder
+    adder adder0(.a(a), .b(badd), .cin(cin), .out(addout));
 
     always_comb begin
-        // sub mux
+        // subtraction multiplexer
         if (op[2]) begin
             badd = ~b;
             cin = 1;
@@ -31,16 +32,17 @@ module alu (
             cin = 0;
         end
 
-        // out mux
+        // output multiplexer
         case (op)
             OP_AND: out = a & b;
             OP_OR:  out = a | b;
             OP_ADD: out = addout;
             OP_SUB: out = addout;
             OP_SLT: out = { 31'b0, addout[31] };
-            default out = 0;
+            default: out = 0;
         endcase
 
+        // overflow condition
         of =  ~op[2] & ~a[31] & ~b[31] &  out[31] 
             | ~op[2] &  a[31] &  b[31] & ~out[31]
             |  op[2] & ~a[31] &  b[31] &  out[31] 
