@@ -16,6 +16,8 @@ $(OBJ_DIR)/Vregister_bank: register_bank.sv tb_register_bank.sv | $(OBJ_DIR)
 $(OBJ_DIR)/Vinstruction_register: instruction_register.sv tb_ir.sv | $(OBJ_DIR)
 	$(VERILATOR) --timing --timescale-override 1ps/1ps --trace --assert --binary instruction_register.sv tb_ir.sv
 
+$(OBJ_DIR)/Vcontrol: control.sv tb_control.sv | $(OBJ_DIR)
+	$(VERILATOR) --timing --timescale-override 1ps/1ps --trace --assert --binary control.sv tb_control.sv
 
 clean:
 	rm -rf $(OBJ_DIR)
