@@ -17,7 +17,7 @@ module memoryctl (
         bus_wr = write_enable;
 
         assign bus_data = write_enable ? write_data : 32'bz;
-        assign read_data = read_enable ? bus_data : 32'b0;
+        assign read_data = bus_data;
 
     end
 

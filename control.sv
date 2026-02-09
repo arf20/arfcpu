@@ -43,41 +43,41 @@ module control (
     // transition function
     always_ff @(posedge clk or posedge reset)
         if (reset)
-            state = STATE_FETCH;
+            state <= STATE_FETCH;
         else case (state)
-            STATE_FETCH: state = STATE_DECODE;
+            STATE_FETCH: state <= STATE_DECODE;
 
             STATE_DECODE:
                 case (inst_opcode)
-                    OPCODE_ALUINST: state = STATE_EXECUTE;
-                    OPCODE_LOAD: state = STATE_MEM_ADDR;
-                    OPCODE_STORE: state = STATE_MEM_ADDR;
-                    OPCODE_BRANCH_EQ: state = STATE_COND_BRANCH;
-                    OPCODE_JUMP: state = STATE_JUMP;
-                    OPCODE_LOAD_IMM: state = STATE_WRITEBACK_IMM;
-                    OPCODE_OR_IMM: state = STATE_EXECUTE_IMM;
-                    default: state = STATE_FETCH;
+                    OPCODE_ALUINST: state <= STATE_EXECUTE;
+                    OPCODE_LOAD: state <= STATE_MEM_ADDR;
+                    OPCODE_STORE: state <= STATE_MEM_ADDR;
+                    OPCODE_BRANCH_EQ: state <= STATE_COND_BRANCH;
+                    OPCODE_JUMP: state <= STATE_JUMP;
+                    OPCODE_LOAD_IMM: state <= STATE_WRITEBACK_IMM;
+                    OPCODE_OR_IMM: state <= STATE_EXECUTE_IMM;
+                    default: state <= STATE_FETCH;
                 endcase
 
-            STATE_EXECUTE: state = STATE_WRITEBACK;
+            STATE_EXECUTE: state <= STATE_WRITEBACK;
             STATE_MEM_ADDR:
                 case (inst_opcode)
-                    OPCODE_LOAD: state = STATE_MEM_READ;
-                    OPCODE_STORE: state = STATE_MEM_WRITE;
-                    default: state = STATE_FETCH;
+                    OPCODE_LOAD: state <= STATE_MEM_READ;
+                    OPCODE_STORE: state <= STATE_MEM_WRITE;
+                    default: state <= STATE_FETCH;
                 endcase
-            STATE_COND_BRANCH: state = STATE_FETCH;
-            STATE_JUMP: state = STATE_FETCH;
-            STATE_WRITEBACK_IMM: state = STATE_FETCH;
+            STATE_COND_BRANCH: state <= STATE_FETCH;
+            STATE_JUMP: state <= STATE_FETCH;
+            STATE_WRITEBACK_IMM: state <= STATE_FETCH;
             
-            STATE_WRITEBACK: state = STATE_FETCH;
-            STATE_MEM_READ: state = STATE_MEM_WRITEBACK;
-            STATE_MEM_WRITE: state = STATE_FETCH;
-            STATE_WRITEBACK_RT: state = STATE_FETCH;
+            STATE_WRITEBACK: state <= STATE_FETCH;
+            STATE_MEM_READ: state <= STATE_MEM_WRITEBACK;
+            STATE_MEM_WRITE: state <= STATE_FETCH;
+            STATE_WRITEBACK_RT: state <= STATE_FETCH;
 
-            STATE_MEM_WRITEBACK: state = STATE_FETCH;
+            STATE_MEM_WRITEBACK: state <= STATE_FETCH;
 
-            default: state = STATE_FETCH;
+            default: state <= STATE_FETCH;
         endcase
 
     // output function

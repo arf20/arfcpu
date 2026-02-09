@@ -17,7 +17,7 @@ module register_bank (
     // write port on clock if write enable
     always_ff @(posedge clk) begin
         if (write_enable && write_reg != 5'b0) begin
-            registers[write_reg] = write_data;
+            registers[write_reg] <= write_data;
         end
     end
 

@@ -1,4 +1,4 @@
-module tb_alu();
+module tb_ir();
     logic [31:0] inst;
     logic clk;
     logic we;
@@ -15,8 +15,8 @@ module tb_alu();
     ir ir0 (.inst(inst), .clk(clk), .write_enable(we), .opcode(opcode), .rs(rs), .rt(rt), .imm(imm), .rd(rd), .shamt(shamt), .func(func), .j(j));
 
     always begin
-        #5 clk = 1;
-        #5 clk = 0;
+        #5 clk <= 1;
+        #5 clk <= 0;
     end
 
     initial begin

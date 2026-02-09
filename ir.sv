@@ -19,7 +19,7 @@ module ir (
     // write to register on clock when if enable
     always_ff @(posedge clk) begin
         if (write_enable) begin
-            inst_reg = inst;
+            inst_reg <= inst;
         end
     end
 

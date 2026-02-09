@@ -9,8 +9,8 @@ module tb_register_bank ();
         .read_data_1(rd1), .read_data_2(rd2), .write_data(wd));
 
     always begin
-        #5 clk = 1;
-        #5 clk = 0;
+        #5 clk <= 1;
+        #5 clk <= 0;
     end
 
     initial begin
@@ -55,3 +55,4 @@ module tb_register_bank ();
         #10;
     end
 endmodule
+

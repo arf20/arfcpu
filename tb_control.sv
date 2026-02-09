@@ -44,8 +44,8 @@ module tb_control();
     );
 
     always begin
-        #5 clk = 1;
-        #5 clk = 0;
+        #5 clk <= 1;
+        #5 clk <= 0;
     end
 
     initial begin
