@@ -9,7 +9,7 @@ SystemVerilog implementation of UM Computer Science ETC base MIPS-based CPU
  - [X] Register bank
  - [X] Instruction decoder
  - [ ] Memory controller
- - [ ] Control unit
+ - [X] Control unit
  - [ ] Datapath
  - [ ] Top level
 

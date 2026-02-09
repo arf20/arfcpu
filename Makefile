@@ -2,7 +2,7 @@ VERILATOR := verilator
 
 OBJ_DIR := obj_dir
 
-all: $(OBJ_DIR)/Valu $(OBJ_DIR)/Vregister_bank $(OBJ_DIR)/Vinstruction_register
+all: $(OBJ_DIR)/Valu $(OBJ_DIR)/Vregister_bank $(OBJ_DIR)/Vinstruction_register $(OBJ_DIR)/Vcontrol $(OBJ_DIR)/Vmemoryctl
 
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
@@ -18,6 +18,9 @@ $(OBJ_DIR)/Vinstruction_register: instruction_register.sv tb_ir.sv | $(OBJ_DIR)
 
 $(OBJ_DIR)/Vcontrol: control.sv tb_control.sv | $(OBJ_DIR)
 	$(VERILATOR) --timing --timescale-override 1ps/1ps --trace --assert --binary control.sv tb_control.sv
+
+$(OBJ_DIR)/Vmemoryctl: memory_controller.sv tb_memoryctl.sv | $(OBJ_DIR)
+	$(VERILATOR) --timing --timescale-override 1ps/1ps --trace --assert --binary memory_controller.sv tb_memoryctl.sv
 
 clean:
 	rm -rf $(OBJ_DIR)
