@@ -8,7 +8,7 @@ module memory(
 
     logic [31:0] mem[0:2**14-1];
 
-    //assign data = chip_select && output_enable && !write_enable ? mem[address] : 32'bz;
+    assign data = chip_select && output_enable && !write_enable ? mem[address] : 32'bz;
     
     always_latch begin
         if (chip_select && write_enable && !output_enable)

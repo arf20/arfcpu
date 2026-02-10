@@ -8,15 +8,53 @@ module tb_memory();
     initial begin
         $dumpfile("waveform.vcd");
         $dumpvars;
+        
+        cs = 1;
 
         addr = 14'h0;
         data = 32'hf;
-        cs = 1;
         we = 1;
         oe = 0;
         $strobe("write %0h to %0h", data, addr);
         #10;
 
+        we = 0;
+        oe = 1;
+        $strobe("read %0h from %0h", data, addr);
+        #10;
+
+
+        data = 32'hf0;
+        we = 1;
+        oe = 0;
+        $strobe("write %0h to %0h", data, addr);
+        #10;
+
+        we = 0;
+        oe = 1;
+        $strobe("read %0h from %0h", data, addr);
+        #10;
+
+
+        
+        addr = 14'h2;
+        data = 32'hf00;
+        we = 1;
+        oe = 0;
+        $strobe("write %0h to %0h", data, addr);
+        #10;
+
+        we = 0;
+        oe = 1;
+        $strobe("read %0h from %0h", data, addr);
+        #10;
+
+
+        addr = 14'h0;
+        we = 0;
+        oe = 1;
+        $strobe("read %0h from %0h", data, addr);
+        #10;
     end
 
 endmodule

@@ -11,5 +11,7 @@ SystemVerilog implementation of UM Computer Science ETC base MIPS-based CPU
  - [ ] Memory controller
  - [X] Control unit
  - [ ] Datapath
- - [ ] Top level
+ - [ ] CPU top level
+ - [ ] Memory
+ - [ ] System top level
 

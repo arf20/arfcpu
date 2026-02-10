@@ -1,6 +1,5 @@
 VERILATOR := verilator
-VERFLAGS := --timing --timescale-override 1ps/1ps --trace --assert --binary
-#-Wall
+VERFLAGS := --timing --timescale-override 1ps/1ps --trace --assert --binary -Wall
 
 OBJ_DIR := obj_dir
 
